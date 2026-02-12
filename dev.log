@@ -1,0 +1,18 @@
+
+> yarrwiki@0.1.0 dev
+> next dev -p 10296
+
+⚠ Invalid next.config.ts options detected: 
+⚠     Unrecognized key(s) in object: 'allowedDevOrigins' at "experimental"
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:10296
+- Network:       http://221.167.181.62:10296
+- Experiments (use with caution):
+  ? allowedDevOrigins (invalid experimental key)
+
+✓ Starting...
+✓ Ready in 906ms
+⚠ Cross origin request detected from narnia-lab.duckdns.org to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ GET / 200 in 826ms (compile: 358ms, render: 468ms)
