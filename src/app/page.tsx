@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { Search, Plus, BookOpen, Clock, ShieldCheck } from "lucide-react";
+import { Search, Plus, BookOpen, Clock, ShieldCheck, Book } from "lucide-react";
 
 export default async function Home({
   searchParams,
@@ -52,6 +52,10 @@ export default async function Home({
           <Link href="/w/대문" className="flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-700 transition shadow-xl shadow-blue-100 group">
             <BookOpen size={20} className="group-hover:scale-110 transition" />
             대문 바로가기
+          </Link>
+          <Link href="/all" className="flex items-center gap-2 bg-white text-gray-900 border-2 border-gray-100 px-8 py-4 rounded-2xl font-bold hover:border-blue-200 hover:bg-blue-50/50 transition shadow-sm group">
+            <Book size={20} className="text-blue-600 group-hover:scale-110 transition" />
+            모든 문서 보기
           </Link>
           <Link href="/edit/new" className="flex items-center gap-2 bg-white text-gray-900 border-2 border-gray-100 px-8 py-4 rounded-2xl font-bold hover:border-blue-200 hover:bg-blue-50/50 transition shadow-sm group">
             <Plus size={20} className="text-blue-600 group-hover:rotate-90 transition" />
