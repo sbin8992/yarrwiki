@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate && node scripts/export-wiki-snapshot.cjs",
     "start": "next start",
     "lint": "eslint"
   },

@@ -6,7 +6,6 @@ import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import { Search, Shield, LogOut } from "lucide-react";
 import PermissionRequestButton from "./PermissionRequestButton";
-import { prisma } from "@/lib/prisma";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,14 +29,19 @@ export default async function RootLayout({
 
   let requestStatus = null;
   if (session && !session.canEdit && !session.isAdmin) {
-    const request = await prisma.permissionRequest.findFirst({
-      where: {
-        userId: session.userId,
-        status: "PENDING",
-      },
-      orderBy: { createdAt: "desc" },
-    });
-    if (request) requestStatus = "PENDING";
+    try {
+      const { prisma } = await import("@/lib/prisma");
+      const request = await prisma.permissionRequest.findFirst({
+        where: {
+          userId: session.userId,
+          status: "PENDING",
+        },
+        orderBy: { createdAt: "desc" },
+      });
+      if (request) requestStatus = "PENDING";
+    } catch (error) {
+      console.error("Permission request status unavailable:", error);
+    }
   }
 
   return (

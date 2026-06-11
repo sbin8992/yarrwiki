@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -13,6 +12,7 @@ import { Metadata } from "next";
 import { ListTree } from "lucide-react";
 import { buildHeadingIdByLine, buildTableOfContents } from "@/lib/wikiToc";
 import type { PluggableList } from "unified";
+import { findWikiPageByTitle } from "@/lib/wikiData";
 
 type MarkdownNodeWithPosition = {
   position?: {
@@ -55,10 +55,7 @@ export default async function WikiViewPage({
   const decodedTitle = decodeURIComponent(title);
   const session = await getSession();
 
-  const page = await prisma.wikiPage.findUnique({
-    where: { title: decodedTitle },
-    include: { updatedBy: true },
-  });
+  const page = await findWikiPageByTitle(decodedTitle);
 
   // Helper to process [[Internal Links]]
   const processWikiLinks = (content: string) => {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { findWikiPages } from "@/lib/wikiData";
 import { Book, Search, BookOpen } from "lucide-react";
 
 export default async function AllPagesPage({
@@ -9,14 +9,9 @@ export default async function AllPagesPage({
 }) {
   const { q } = await searchParams;
 
-  const allPages = await prisma.wikiPage.findMany({
-    where: q ? {
-      title: {
-        contains: q
-      }
-    } : undefined,
-    orderBy: { title: "asc" },
-    include: { updatedBy: true }
+  const allPages = await findWikiPages({
+    q,
+    orderBy: "title",
   });
 
   return (

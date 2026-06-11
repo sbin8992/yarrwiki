@@ -1,5 +1,5 @@
-import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
+import { findWikiPageByTitle } from "@/lib/wikiData";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -10,9 +10,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ message: "제목이 필요합니다." }, { status: 400 });
   }
 
-  const page = await prisma.wikiPage.findUnique({
-    where: { title },
-  });
+  const page = await findWikiPageByTitle(title);
 
   return NextResponse.json({ page });
 }
@@ -29,6 +27,7 @@ export async function POST(req: Request) {
 
   try {
     const { originalTitle, title, content } = await req.json();
+    const { prisma } = await import("@/lib/prisma");
 
     if (!title) {
       return NextResponse.json({ message: "제목이 필요합니다." }, { status: 400 });
