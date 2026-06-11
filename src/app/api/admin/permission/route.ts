@@ -21,7 +21,8 @@ export async function POST(req: Request) {
 
   try {
     const { userId, canEdit } = await req.json();
-    const { prisma } = await import("@/lib/prisma");
+    const { getPrisma } = await import("@/lib/prisma");
+    const prisma = await getPrisma();
 
     const user = await prisma.user.update({
       where: { id: userId },

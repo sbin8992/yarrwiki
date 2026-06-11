@@ -27,7 +27,8 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { prisma } = await import("@/lib/prisma");
+    const { getPrisma } = await import("@/lib/prisma");
+    const prisma = await getPrisma();
     // Check if there's already a pending request
     const existingRequest = await prisma.permissionRequest.findFirst({
       where: {
@@ -73,7 +74,8 @@ export async function GET() {
   }
 
   try {
-    const { prisma } = await import("@/lib/prisma");
+    const { getPrisma } = await import("@/lib/prisma");
+    const prisma = await getPrisma();
     const requests = await prisma.permissionRequest.findMany({
       where: {
         status: "PENDING",

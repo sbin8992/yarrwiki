@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
+import { ensureDatabaseReady } from './databaseReady'
 
 const databaseUrl = process.env.DATABASE_URL
 
@@ -19,3 +20,8 @@ declare const globalThis: {
 export const prisma = globalThis.prisma ?? prismaClientSingleton()
 
 if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma
+
+export async function getPrisma() {
+  await ensureDatabaseReady()
+  return prisma
+}

@@ -21,7 +21,8 @@ export async function POST(req: Request) {
 
   try {
     const { requestId, action } = await req.json(); // action: "APPROVE" or "REJECT"
-    const { prisma } = await import("@/lib/prisma");
+    const { getPrisma } = await import("@/lib/prisma");
+    const prisma = await getPrisma();
 
     const request = await prisma.permissionRequest.findUnique({
       where: { id: requestId },

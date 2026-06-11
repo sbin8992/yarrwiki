@@ -27,7 +27,8 @@ export async function POST(req: Request) {
 
   try {
     const { originalTitle, title, content } = await req.json();
-    const { prisma } = await import("@/lib/prisma");
+    const { getPrisma } = await import("@/lib/prisma");
+    const prisma = await getPrisma();
 
     if (!title) {
       return NextResponse.json({ message: "제목이 필요합니다." }, { status: 400 });

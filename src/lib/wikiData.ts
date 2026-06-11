@@ -42,7 +42,8 @@ function filterSnapshotPages({ q, take, orderBy }: PageFilters = {}) {
 
 export async function findWikiPages(filters: PageFilters = {}) {
   try {
-    const { prisma } = await import("@/lib/prisma");
+    const { getPrisma } = await import("@/lib/prisma");
+    const prisma = await getPrisma();
     return await prisma.wikiPage.findMany({
       where: filters.q
         ? {
@@ -64,7 +65,8 @@ export async function findWikiPages(filters: PageFilters = {}) {
 
 export async function findWikiPageByTitle(title: string) {
   try {
-    const { prisma } = await import("@/lib/prisma");
+    const { getPrisma } = await import("@/lib/prisma");
+    const prisma = await getPrisma();
     return await prisma.wikiPage.findUnique({
       where: { title },
       include: { updatedBy: true },

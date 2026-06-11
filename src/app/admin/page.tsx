@@ -16,7 +16,8 @@ export default async function AdminPage() {
     redirect("/");
   }
 
-  const { prisma } = await import("@/lib/prisma");
+  const { getPrisma } = await import("@/lib/prisma");
+  const prisma = await getPrisma();
 
   const users = await prisma.user.findMany({
     orderBy: { id: "asc" },

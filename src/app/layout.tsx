@@ -30,7 +30,8 @@ export default async function RootLayout({
   let requestStatus = null;
   if (session && !session.canEdit && !session.isAdmin) {
     try {
-      const { prisma } = await import("@/lib/prisma");
+      const { getPrisma } = await import("@/lib/prisma");
+      const prisma = await getPrisma();
       const request = await prisma.permissionRequest.findFirst({
         where: {
           userId: session.userId,

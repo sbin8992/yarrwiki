@@ -12,7 +12,8 @@ export async function POST(req: Request) {
 
   try {
     const { username, password } = await req.json();
-    const { prisma } = await import("@/lib/prisma");
+    const { getPrisma } = await import("@/lib/prisma");
+    const prisma = await getPrisma();
 
     const existingUser = await prisma.user.findUnique({
       where: { username },
