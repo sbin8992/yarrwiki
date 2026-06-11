@@ -11,7 +11,10 @@ import { prisma } from "@/lib/prisma";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "야르위키",
+  title: {
+    default: "야르위키",
+    template: "%s - 야르위키",
+  },
   description: "지식 공유의 시작, 야르위키",
   verification: {
     google: "epZP__wnyYVwmEwiUrPN_blOngfW2-S3bm4s8Px-jOQ",
