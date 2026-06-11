@@ -1,9 +1,9 @@
-import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import PermissionToggle from "./PermissionToggle";
 import PermissionRequestList from "./PermissionRequestList";
 import { Users, Shield, Edit3, UserCheck, Search, Clock, Book } from "lucide-react";
+import { isReadOnlyDeployment } from "@/lib/deploymentMode";
 
 export default async function AdminPage() {
   const session = await getSession();
@@ -11,6 +11,12 @@ export default async function AdminPage() {
   if (!session || !session.isAdmin) {
     redirect("/");
   }
+
+  if (isReadOnlyDeployment()) {
+    redirect("/");
+  }
+
+  const { prisma } = await import("@/lib/prisma");
 
   const users = await prisma.user.findMany({
     orderBy: { id: "asc" },

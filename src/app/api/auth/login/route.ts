@@ -1,12 +1,23 @@
-import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { encrypt } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { isReadOnlyDeployment } from "@/lib/deploymentMode";
 
 export async function POST(req: Request) {
+  if (isReadOnlyDeployment()) {
+    return NextResponse.json(
+      {
+        message:
+          "현재 Vercel 배포판은 읽기 전용이라 로그인을 사용할 수 없습니다. 문서 열람은 가능하며, 로그인/수정은 DB 이전 후 활성화됩니다.",
+      },
+      { status: 503 }
+    );
+  }
+
   try {
     const { username, password } = await req.json();
+    const { prisma } = await import("@/lib/prisma");
 
     const user = await prisma.user.findUnique({
       where: { username },

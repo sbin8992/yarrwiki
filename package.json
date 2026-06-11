@@ -5,12 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postinstall": "prisma generate && node scripts/export-wiki-snapshot.cjs",
+    "postinstall": "prisma generate && node scripts/sync-postgres.cjs",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.3.0",
+    "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.3.0",
     "@tailwindcss/typography": "^0.5.19",
     "bcryptjs": "^3.0.3",
@@ -20,6 +21,7 @@
     "jose": "^6.1.3",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
+    "pg": "^8.21.0",
     "prisma": "^7.3.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",

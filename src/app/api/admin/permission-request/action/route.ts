@@ -1,8 +1,15 @@
-import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
+import { isReadOnlyDeployment } from "@/lib/deploymentMode";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
+  if (isReadOnlyDeployment()) {
+    return NextResponse.json(
+      { message: "DB 설정이 없어 권한 요청을 처리할 수 없습니다." },
+      { status: 503 }
+    );
+  }
+
   const session = await getSession();
 
   if (!session || !session.isAdmin) {
@@ -14,6 +21,7 @@ export async function POST(req: Request) {
 
   try {
     const { requestId, action } = await req.json(); // action: "APPROVE" or "REJECT"
+    const { prisma } = await import("@/lib/prisma");
 
     const request = await prisma.permissionRequest.findUnique({
       where: { id: requestId },

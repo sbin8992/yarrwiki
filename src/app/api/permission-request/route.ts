@@ -1,8 +1,15 @@
-import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
+import { isReadOnlyDeployment } from "@/lib/deploymentMode";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
+  if (isReadOnlyDeployment()) {
+    return NextResponse.json(
+      { message: "DB 설정이 없어 권한 요청을 보낼 수 없습니다." },
+      { status: 503 }
+    );
+  }
+
   const session = await getSession();
 
   if (!session) {
@@ -20,6 +27,7 @@ export async function POST(req: Request) {
   }
 
   try {
+    const { prisma } = await import("@/lib/prisma");
     // Check if there's already a pending request
     const existingRequest = await prisma.permissionRequest.findFirst({
       where: {
@@ -51,6 +59,10 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
+  if (isReadOnlyDeployment()) {
+    return NextResponse.json({ requests: [] });
+  }
+
   const session = await getSession();
 
   if (!session || !session.isAdmin) {
@@ -61,6 +73,7 @@ export async function GET() {
   }
 
   try {
+    const { prisma } = await import("@/lib/prisma");
     const requests = await prisma.permissionRequest.findMany({
       where: {
         status: "PENDING",

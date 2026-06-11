@@ -31,6 +31,9 @@ export default function LoginPage() {
     <div className="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mt-12">
       <h1 className="text-3xl font-bold mb-6 text-center">로그인</h1>
       {error && <p className="text-red-500 mb-4 text-center text-sm">{error}</p>}
+      <div className="mb-6 rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm font-medium leading-relaxed text-amber-800">
+        Vercel 배포판은 현재 문서 열람용입니다. 로그인과 문서 수정은 외부 DB 이전 후 사용할 수 있습니다.
+      </div>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">아이디</label>

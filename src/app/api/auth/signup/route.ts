@@ -1,10 +1,18 @@
-import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import { isReadOnlyDeployment } from "@/lib/deploymentMode";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
+  if (isReadOnlyDeployment()) {
+    return NextResponse.json(
+      { message: "DB 설정이 없어 회원가입을 사용할 수 없습니다." },
+      { status: 503 }
+    );
+  }
+
   try {
     const { username, password } = await req.json();
+    const { prisma } = await import("@/lib/prisma");
 
     const existingUser = await prisma.user.findUnique({
       where: { username },
